@@ -8,6 +8,8 @@ target 'yazlab_1_3' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'yazlab_1_3Tests' do
     inherit! :complete
     # Pods for testing
