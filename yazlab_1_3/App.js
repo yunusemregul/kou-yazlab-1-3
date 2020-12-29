@@ -29,7 +29,18 @@ export default function App() {
               return;
             }
 
-            
+            fetch('http://192.168.1.33:3000/upload', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                img: response.data,
+              }),
+            }).catch((error) => {
+              console.warn(error);
+            });
           });
         }}>
         <Text style={{color: '#fff'}}>Fotoğraf Yükle</Text>
