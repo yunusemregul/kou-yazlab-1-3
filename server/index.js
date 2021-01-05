@@ -20,9 +20,10 @@ app.get("/", function (req, res) {
     res.send("hello world");
 });
 
-const jsonParser = bodyParser.json({ limit: "50mb" });
+const jsonParser = bodyParser.json({ limit: "15mb" });
 
 app.post("/upload", jsonParser, async function (req, res) {
+    console.log("upload istegi geldi");
     const base64 = req.body.img;
 
     const fileName = shortid.generate();
@@ -92,6 +93,7 @@ app.post("/upload", jsonParser, async function (req, res) {
 
         const canvasBuffer = canvas.toBuffer("image/png");
         fs.writeFileSync("./images/" + fileName + "_out.jpg", canvasBuffer);
+        console.log("cevap donduruluyor");
         res.send(
             JSON.stringify({
                 url: "/images/" + fileName + "_out.jpg",
@@ -101,6 +103,8 @@ app.post("/upload", jsonParser, async function (req, res) {
         );
     });
 });
+
+console.log("server basliyor");
 
 app.use("/images", express.static("images"));
 app.listen(3000);

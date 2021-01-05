@@ -14,7 +14,7 @@ const imagePickerOptions = {
   },
 };
 
-const IP = "35.198.77.236"
+const IP = '35.198.77.236';
 
 let data = {width: 1000, height: 1000};
 
@@ -65,7 +65,7 @@ export default function App() {
               return;
             }
 
-            fetch('http://'+IP+':3000/upload', {
+            fetch('http://' + IP + ':3000/upload', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
@@ -78,7 +78,7 @@ export default function App() {
               .then((response) => response.json())
               .then((response) => {
                 data = response;
-                setImageURL('http://'+IP+':3000' + response.url);
+                setImageURL('http://' + IP + ':3000' + response.url);
               })
               .catch((error) => {
                 console.warn(error);
