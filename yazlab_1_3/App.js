@@ -26,7 +26,7 @@ export default function App() {
       <View
         style={{
           width: '100%',
-          height: 670,
+          height: Dimensions.get('window').height * 8.5/10,
           backgroundColor: 'black',
         }}>
         {imageURL === '' ? (
