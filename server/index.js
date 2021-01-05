@@ -40,14 +40,16 @@ app.post("/upload", jsonParser, async function (req, res) {
 
     fs.writeFileSync("./images/" + fileName + ".jpg", imgBuffer);
 
+    const margin = 24;
+
     const dimensions = sizeOf(imgBuffer);
-    const canvas = createCanvas(dimensions.width, dimensions.height);
+    const canvas = createCanvas(dimensions.width + margin * 2, dimensions.height + margin * 2);
     const context = canvas.getContext("2d");
 
     // TODO: better random colors
 
     loadImage("./images/" + fileName + ".jpg").then((image) => {
-        context.drawImage(image, 0, 0, dimensions.width, dimensions.height);
+        context.drawImage(image, margin, margin, dimensions.width, dimensions.height);
 
         context.fillStyle = "#ff0000";
         context.font = "bold 16pt Arial";
@@ -71,15 +73,18 @@ app.post("/upload", jsonParser, async function (req, res) {
             for (let i = 0; i < vertices.length; i++) {
                 const nextIndex = (i + 1) % vertices.length;
 
-                context.moveTo(vertices[i].x, vertices[i].y);
-                context.lineTo(vertices[nextIndex].x, vertices[nextIndex].y);
+                context.moveTo(vertices[i].x + margin, vertices[i].y + margin);
+                context.lineTo(vertices[nextIndex].x + margin, vertices[nextIndex].y + margin);
             }
 
             context.strokeStyle = "rgb(" + r + ", " + g + "," + b + ")";
             context.lineWidth = 3;
             context.stroke();
 
-            context.fillText(element.name, vertices[0].x, vertices[0].y - 4);
+            context.lineWidth = 1;
+            context.strokeStyle = "black";
+            context.fillText(element.name, vertices[0].x + margin, vertices[0].y - 4 + margin);
+            context.strokeText(element.name, vertices[0].x + margin, vertices[0].y - 4 + margin);
 
             // çalışmıyo
             // çizim yapcaz kareleri çizcez normalizedVertices ile
@@ -90,6 +95,8 @@ app.post("/upload", jsonParser, async function (req, res) {
         res.send(
             JSON.stringify({
                 url: "/images/" + fileName + "_out.jpg",
+                width: dimensions.width,
+                height: dimensions.height,
             })
         );
     });

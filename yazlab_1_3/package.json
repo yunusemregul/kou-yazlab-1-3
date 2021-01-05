@@ -12,6 +12,7 @@
   "dependencies": {
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "react-native-image-pan-zoom": "^2.1.12",
     "react-native-image-picker": "^2.3.4"
   },
   "devDependencies": {

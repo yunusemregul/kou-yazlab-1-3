@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {SafeAreaView, TouchableOpacity, Text, Image} from 'react-native';
+import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
+import ImageZoom from 'react-native-image-pan-zoom';
 import ImagePicker from 'react-native-image-picker';
-import {Dimensions} from 'react-native';
 
 const imagePickerOptions = {
   title: 'YÜKLENECEK FOTOĞRAF',
@@ -14,21 +14,41 @@ const imagePickerOptions = {
   },
 };
 
+let data = {width: 1000, height: 1000};
+
 export default function App() {
   const [imageURL, setImageURL] = useState('');
 
   return (
-    <SafeAreaView>
-      <Image
-        source={{uri: imageURL}}
+    <View>
+      <View
         style={{
-          width: Dimensions.get('window').width - 16,
-          height: Dimensions.get('window').width - 16,
-          backgroundColor: '#333',
-          margin: 8
-        }}
-        resizeMode={'stretch'}
-      />
+          width: '100%',
+          height: 670,
+          backgroundColor: 'black',
+        }}>
+        {imageURL === '' ? (
+          <View style={{backgroundColor: '#fff'}}>
+            <Text stlye={{color: '#fff'}}>Fotoğraf seçin</Text>
+          </View>
+        ) : (
+          <ImageZoom
+            cropWidth={Dimensions.get('window').width}
+            cropHeight={Dimensions.get('window').height}
+            imageWidth={data.width}
+            imageHeight={data.height}>
+            <Image
+              source={{uri: imageURL}}
+              style={{
+                flex: 1,
+                width: undefined,
+                height: undefined,
+                resizeMode: 'center',
+              }}
+            />
+          </ImageZoom>
+        )}
+      </View>
       <TouchableOpacity
         style={{
           backgroundColor: '#333',
@@ -36,6 +56,7 @@ export default function App() {
           margin: 8,
         }}
         onPress={() => {
+          console.log('pressed');
           ImagePicker.showImagePicker(imagePickerOptions, async (response) => {
             if (response.didCancel) {
               console.log('User cancelled picking an image.');
@@ -54,7 +75,7 @@ export default function App() {
             })
               .then((response) => response.json())
               .then((response) => {
-                console.log('http://192.168.1.33:3000' + response.url);
+                data = response;
                 setImageURL('http://192.168.1.33:3000' + response.url);
               })
               .catch((error) => {
@@ -64,6 +85,6 @@ export default function App() {
         }}>
         <Text style={{color: '#fff'}}>Fotoğraf Yükle</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }
