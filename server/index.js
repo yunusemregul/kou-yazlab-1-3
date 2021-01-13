@@ -12,14 +12,6 @@ const client = new vision.ImageAnnotatorClient({
     keyFilename: "apikey.json",
 });
 
-/*
-    bi tane alıcı yapılacak fotoğraf yüklenmesi için
-*/
-
-app.get("/", function (req, res) {
-    res.send("hello world");
-});
-
 const jsonParser = bodyParser.json({ limit: "15mb" });
 
 app.post("/upload", jsonParser, async function (req, res) {
@@ -86,9 +78,6 @@ app.post("/upload", jsonParser, async function (req, res) {
             context.strokeStyle = "black";
             context.fillText(element.name, vertices[0].x + margin, vertices[0].y - 4 + margin);
             context.strokeText(element.name, vertices[0].x + margin, vertices[0].y - 4 + margin);
-
-            // çalışmıyo
-            // çizim yapcaz kareleri çizcez normalizedVertices ile
         });
 
         const canvasBuffer = canvas.toBuffer("image/png");

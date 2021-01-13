@@ -14,7 +14,7 @@ const imagePickerOptions = {
   },
 };
 
-const IP = '35.198.77.236';
+const IP = 'SERVER IP';
 
 let data = {width: 1000, height: 1000};
 
